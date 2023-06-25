@@ -10,7 +10,7 @@ contract DutchAuction {
     uint256 public endBlock;
     uint256 public currentPrice;
     bool public auctionEnded;
-    address public bidWnner;
+    address public bidWinner;
 
     //Seller Placed A bid
 
@@ -36,6 +36,11 @@ contract DutchAuction {
         return (currentPrice);
         }
 
+    // Function to get the bid winner
+    function getBidWinner() public view returns (address) {
+        return bidWinner;
+    }
+
     //function for bidders to place bid and proccess the bid
     function placeBid() external payable {
         require(!auctionEnded, "Auction has ended");
@@ -43,7 +48,7 @@ contract DutchAuction {
         if (msg.value >= currentPrice) {
             auctionEnded = true;
             seller.transfer(msg.value); //Transfer bid to seller
-            bidWnner = msg.sender;
+            bidWinner = msg.sender;
         } else {
             payable(msg.sender).transfer(msg.value); //Transfer bid to sender
         }
